@@ -11,11 +11,20 @@
         <h1>Vue 3 basics</h1>
         <p>Hello {{ user.FirstName.split('').reverse().join('')}}</p>
         <input v-model="user.FirstName" v-bind:disabled="!allowEdit" > <input type="checkbox" v-model="allowEdit"  /> Allow edit
+    
+        <template v-for="(donut, index) in donuts" :key="donut.Name">
+            <div v-if="donut.Rating > 3">{{index + 1}}. {{ donut.Name}}</div>
+        </template>
     </div>
     <script>
         const app = Vue.createApp({
             data(){
                 return {
+                    donuts: [
+                        { Name: 'Malinowy', Rating: 1},
+                        { Name: 'Różany', Rating: 5},
+                        { Name: 'Pistacjowy', Rating: 4},
+                    ],
                     user: {
                         FirstName: 'Elon',
                         LastName: 'Mask'
