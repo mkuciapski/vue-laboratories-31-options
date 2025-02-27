@@ -12,13 +12,15 @@
     <div id="app">
         <h1>Vue 3 basics</h1>
         <p>Hello {{ user.FirstName.split('').reverse().join('')}}</p>
-        <input v-show="!allowEdit" v-model="user.FirstName" v-bind:disabled="!allowEdit" > <input type="checkbox" v-model="allowEdit"  /> Allow edit
+        <input v-bind:style="editStyle" v-show="allowEdit" v-model="user.FirstName" v-bind:disabled="!allowEdit" > <input type="checkbox" v-model="allowEdit"  /> Allow edit
     
         <template v-for="(donut, index) in donuts" :key="donut.Name">
-            <div v-if="donut.Rating > 3">{{index + 1}}. {{ donut.Name}}</div>
+            <div v-bind:style="{'font-size': editStyle.FontSize > 3 ? '3em' : editStyle.FontSize + 'em'}" v-if="donut.Rating > 3">{{index + 1}}. {{ donut.Name}}</div>
             <div v-else-if="!donut.Rating" class="text-orange-400">{{index + 1}}. {{ donut.Name}}</div>
             <div v-else class="text-red-600">{{index + 1}}. {{ donut.Name}}</div>
         </template>
+
+        <input type="number" v-model="editStyle.FontSize" step="0.1">
     </div>
     <script>
         const app = Vue.createApp({
@@ -33,7 +35,11 @@
                         FirstName: 'Elon',
                         LastName: 'Mask'
                     },
-                    allowEdit: false
+                    allowEdit: false,
+                    editStyle:{
+                        Color: 'red !important',
+                        FontSize: 1,
+                    }
                 }
             }
         }).mount('#app')
