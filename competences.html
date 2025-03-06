@@ -30,7 +30,7 @@
         <div>
           <input
             v-model="searchText"
-            v-on:keyup="searchCompetences"
+            @keyup.enter="searchCompetences"
             class="input join-item w-100"
             placeholder="szukaj"
           />
@@ -51,19 +51,19 @@
               </h2>
               <figure>
                 <img
-                  v-bind:src="`/assets/${competence.Picture}`"
-                  v-bind:alt="competence.Name"
+                  :src="`/assets/${competence.Picture}`"
+                  :alt="competence.Name"
                 />
               </figure>
               <p
                 class="font-bold"
-                v-bind:class="[{'text-error': competence.Level < 3}, {'text-success': competence.Level > 3}]"
+                :class="[{'text-error': competence.Level < 3}, {'text-success': competence.Level > 3}]"
               >
                 Poziom: {{competence.Level}}
               </p>
               <!-- <p
               class="font-bold"
-              v-bind:style="{color: competence.Level < 3 ? 'red': (competence.Level > 3 ? 'green' : 'black')}"
+              :style="{color: competence.Level < 3 ? 'red': (competence.Level > 3 ? 'green' : 'black')}"
             >
               Poziom: {{competence.Level}}
             </p> -->

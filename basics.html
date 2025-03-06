@@ -28,37 +28,62 @@
   </head>
   <body>
     <div id="app">
-      <h1>Vue 3 basics</h1>
-      <p>Hello {{ user.FirstName.split('').reverse().join('')}}</p>
-      <input
-        v-on:keypress="increaseCounter('Zaraz będą Państwo biegli')"
-        v-bind:style="editStyle"
-        v-show="allowEdit"
-        v-model="user.FirstName"
-        v-bind:disabled="!allowEdit"
-      />
-      <input type="checkbox" v-model="allowEdit" /> Allow edit
+      <form v-on:submit.prevent="send">
+        <div
+          @click.capture="console.log('outer')"
+          style="background-color: rgb(252, 252, 225)"
+          class="w-40 h-40 mb-10 ml-50"
+        >
+          Waldemar Messi
 
-      <template v-for="(donut, index) in donuts" :key="donut.Name">
-        <div v-bind:style="{'font-size': formatSize()}" v-if="donut.Rating > 3">
-          {{index + 1}}. {{ donut.Name}}
+          <div
+            @click="console.log('inner')"
+            style="background-color: rgb(219, 219, 247)"
+            class="w-20 h-20"
+          >
+            Pesudonim Pączek
+          </div>
         </div>
-        <div v-else-if="!donut.Rating" class="text-orange-400">
-          {{index + 1}}. {{ donut.Name}}
+
+        <input type="submit" value="Send" />
+        <h1>Vue 3 basics</h1>
+        <p>Hello {{ user.FirstName.split('').reverse().join('')}}</p>
+        <input
+          v-on:keypress="increaseCounter('Zaraz będą Państwo biegli')"
+          v-bind:style="editStyle"
+          v-show="allowEdit"
+          v-model="user.FirstName"
+          v-bind:disabled="!allowEdit"
+        />
+        <input v-model="user.LastName" v-show="allowEdit" />
+
+        {{ formatNameMethod() }} | {{formatNameComputed}}
+
+        <input type="checkbox" v-model="allowEdit" /> Allow edit
+        <template v-for="(donut, index) in donuts" :key="donut.Name">
+          <div
+            v-bind:style="{'font-size': formatSize()}"
+            v-if="donut.Rating > 3"
+          >
+            {{index + 1}}. {{ donut.Name}}
+          </div>
+          <div v-else-if="!donut.Rating" class="text-orange-400">
+            {{index + 1}}. {{ donut.Name}}
+          </div>
+          <div v-else class="text-red-600">{{index + 1}}. {{ donut.Name}}</div>
+        </template>
+
+        <input type="number" v-model="editStyle.FontSize" step="0.1" />
+
+        <div
+          class="border"
+          v-bind:class="[editStyle.FontSize > 0 ? 'info': 'alert' ]"
+        >
+          Font size value: {{editStyle.FontSize}} em
         </div>
-        <div v-else class="text-red-600">{{index + 1}}. {{ donut.Name}}</div>
-      </template>
 
-      <input type="number" v-model="editStyle.FontSize" step="0.1" />
-
-      <div
-        class="border"
-        v-bind:class="[editStyle.FontSize > 0 ? 'info': 'alert' ]"
-      >
-        Font size value: {{editStyle.FontSize}} em
-      </div>
-
-      Clicks: {{counter}}
+        Clicks: {{counter}}
+      </form>
     </div>
     <script>
       const app = Vue.createApp({
@@ -81,7 +106,19 @@
             },
           };
         },
+        computed: {
+          formatNameComputed() {
+            return this.formatNameMethod();
+          },
+        },
         methods: {
+          formatNameMethod() {
+            let firstName = this.user.FirstName.toLowerCase();
+            firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+            const lastName = this.user.LastName.toUpperCase();
+
+            return `${firstName} ${lastName}`;
+          },
           formatSize() {
             return this.editStyle.FontSize > 3
               ? "3em"
@@ -91,6 +128,9 @@
             this.counter++;
 
             console.log(info);
+          },
+          send() {
+            alert("Send");
           },
         },
       }).mount("#app");
