@@ -23,6 +23,19 @@
   </head>
   <body>
     <div id="app">
+      <div class="join mb-2">
+        <button class="btn join-item pointer-events-none">
+          Podaj nazwę kompetencji
+        </button>
+        <div>
+          <input
+            v-model="searchText"
+            v-on:keypress="searchCompetences"
+            class="input join-item w-100"
+            placeholder="szukaj"
+          />
+        </div>
+      </div>
       <div class="flex flex-wrap justify-center">
         <template v-for="competence in competences" :key="competence.Id">
           <div
@@ -64,6 +77,7 @@
       Vue.createApp({
         data() {
           return {
+            searchText: undefined,
             competences: [
               {
                 Id: 1,
@@ -137,6 +151,13 @@
               },
             ],
           };
+        },
+        methods: {
+          searchCompetences() {
+            // pobranie searchText -> this.
+            console.log(this.searchText);
+            // ... = this.competences.filter
+          },
         },
       }).mount("#app");
     </script>
