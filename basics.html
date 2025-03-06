@@ -1,79 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0-beta.9/daisyui.css" rel="stylesheet" type="text/css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0-beta.9/daisyui.css"
+      rel="stylesheet"
+      type="text/css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/vue@3"></script>
 
     <style>
-        .alert{
-            background-color: rgb(241, 227, 227);
-        }
+      .alert {
+        background-color: rgb(241, 227, 227);
+      }
 
-        .info{
-            background-color: rgb(215, 215, 234);
-        }
+      .info {
+        background-color: rgb(215, 215, 234);
+      }
 
-        .border {
-            border: 2px solid black;
-        }
+      .border {
+        border: 2px solid black;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div id="app">
-        <h1>Vue 3 basics</h1>
-        <p>Hello {{ user.FirstName.split('').reverse().join('')}}</p>
-        <input v-on:keypress="increaseCounter('Zaraz będą Państwo biegli')" v-bind:style="editStyle" v-show="allowEdit" v-model="user.FirstName" v-bind:disabled="!allowEdit" > <input type="checkbox" v-model="allowEdit"  /> Allow edit
-    
-        <template v-for="(donut, index) in donuts" :key="donut.Name">
-            <div v-bind:style="{'font-size': formatSize()}" v-if="donut.Rating > 3">{{index + 1}}. {{ donut.Name}}</div>
-            <div v-else-if="!donut.Rating" class="text-orange-400">{{index + 1}}. {{ donut.Name}}</div>
-            <div v-else class="text-red-600">{{index + 1}}. {{ donut.Name}}</div>
-        </template>
+      <h1>Vue 3 basics</h1>
+      <p>Hello {{ user.FirstName.split('').reverse().join('')}}</p>
+      <input
+        v-on:keypress="increaseCounter('Zaraz będą Państwo biegli')"
+        v-bind:style="editStyle"
+        v-show="allowEdit"
+        v-model="user.FirstName"
+        v-bind:disabled="!allowEdit"
+      />
+      <input type="checkbox" v-model="allowEdit" /> Allow edit
 
-        <input type="number" v-model="editStyle.FontSize" step="0.1">
-
-        <div class="border" v-bind:class="[editStyle.FontSize > 0 ? 'info': 'alert' ]"> 
-            Font size value: {{editStyle.FontSize}} em
+      <template v-for="(donut, index) in donuts" :key="donut.Name">
+        <div v-bind:style="{'font-size': formatSize()}" v-if="donut.Rating > 3">
+          {{index + 1}}. {{ donut.Name}}
         </div>
+        <div v-else-if="!donut.Rating" class="text-orange-400">
+          {{index + 1}}. {{ donut.Name}}
+        </div>
+        <div v-else class="text-red-600">{{index + 1}}. {{ donut.Name}}</div>
+      </template>
 
-        Clicks: {{counter}}
+      <input type="number" v-model="editStyle.FontSize" step="0.1" />
+
+      <div
+        class="border"
+        v-bind:class="[editStyle.FontSize > 0 ? 'info': 'alert' ]"
+      >
+        Font size value: {{editStyle.FontSize}} em
+      </div>
+
+      Clicks: {{counter}}
     </div>
     <script>
-        const app = Vue.createApp({
-            data(){
-                return {
-                    counter: 0,
-                    donuts: [
-                        { Name: 'Malinowy', Rating: 1},
-                        { Name: 'Różany', Rating: null},
-                        { Name: 'Pistacjowy', Rating: 4},
-                    ],
-                    user: {
-                        FirstName: 'Elon',
-                        LastName: 'Mask'
-                    },
-                    allowEdit: false,
-                    editStyle:{
-                        Color: 'red !important',
-                        FontSize: 1,
-                    }
-                }            
+      const app = Vue.createApp({
+        data() {
+          return {
+            counter: 0,
+            donuts: [
+              { Name: "Malinowy", Rating: 1 },
+              { Name: "Różany", Rating: null },
+              { Name: "Pistacjowy", Rating: 4 },
+            ],
+            user: {
+              FirstName: "Elon",
+              LastName: "Mask",
             },
-            methods: {
-                formatSize(){
-                    return this.editStyle.FontSize > 3 ? '3em' : this.editStyle.FontSize + 'em'
-                },
-                increaseCounter(info){
-                    this.counter++
+            allowEdit: false,
+            editStyle: {
+              Color: "red !important",
+              FontSize: 1,
+            },
+          };
+        },
+        methods: {
+          formatSize() {
+            return this.editStyle.FontSize > 3
+              ? "3em"
+              : this.editStyle.FontSize + "em";
+          },
+          increaseCounter(info) {
+            this.counter++;
 
-                    console.log(info)
-                }
-            }
-        }).mount('#app')
+            console.log(info);
+          },
+        },
+      }).mount("#app");
     </script>
-</body>
+  </body>
 </html>

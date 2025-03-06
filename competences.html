@@ -30,14 +30,17 @@
         <div>
           <input
             v-model="searchText"
-            v-on:keypress="searchCompetences"
+            v-on:keyup="searchCompetences"
             class="input join-item w-100"
             placeholder="szukaj"
           />
         </div>
       </div>
       <div class="flex flex-wrap justify-center">
-        <template v-for="competence in competences" :key="competence.Id">
+        <template
+          v-for="competence in filteredCompetences"
+          :key="competence.Id"
+        >
           <div
             v-if="competence.Level"
             class="m-[2px] card bg-base-100 w-40 shadow-sm"
@@ -150,13 +153,18 @@
                 Description: "",
               },
             ],
+            filteredCompetences: [],
           };
+        },
+        created() {
+          this.filteredCompetences = this.competences;
         },
         methods: {
           searchCompetences() {
-            // pobranie searchText -> this.
-            console.log(this.searchText);
-            // ... = this.competences.filter
+            const searchText = this.searchText.toLowerCase();
+            this.filteredCompetences = this.competences.filter((competence) =>
+              competence.Name.toLowerCase().includes(searchText)
+            );
           },
         },
       }).mount("#app");
